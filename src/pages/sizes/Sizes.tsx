@@ -73,13 +73,20 @@ export default function Sizes() {
   const handleNext = () => {
     const selectedSize = getPizzaSize(sizeId)
     setPizzaSize(selectedSize)
-    navigate(routes.pizzaFlavour)
+    const flavourSelect = selectedSize[0].flavours
+    if (flavourSelect === 2) {
+      navigate(routes.pizzaFlavour)
+
+      navigate(routes.dualFlavour)
+    }
   }
 
   useEffect(() => {
     if (!pizzaSize) return
     setSizeId(pizzaSize[0].id)
+    
   }, [])
+  
   
 
   return (

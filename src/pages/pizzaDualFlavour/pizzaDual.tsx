@@ -12,18 +12,19 @@ import Margherita from "../../assets/pizza-flavours/margherita.png"
 import Lusa from "../../assets/pizza-flavours/portuguesa.png"
 
 import { convertToCurrency } from "../../helpers/convertToCurrency";
+import { FlavourContentWrapper, FlavourCard, FlavourCardImage, FlavourCardTitle, FlavourCardDescription, FlavourCardPrice, FlavourActionWrapper } from "../flavours/Flavours.style";
 
-import {
-  FlavourActionWrapper,
-  FlavourCard,
-  FlavourCardDescription,
-  FlavourCardImage,
-  FlavourCardPrice,
-  FlavourCardTitle,
-  FlavourContentWrapper,
-} from "./Flavours.style"
+// import {
+//   FlavourActionWrapper,
+//   FlavourCard,
+//   FlavourCardDescription,
+//   FlavourCardImage,
+//   FlavourCardPrice,
+//   FlavourCardTitle,
+//   FlavourContentWrapper,
+// } from "./Flavours.style"
 
-export default function Flavours() {
+export default function DualFlavours() {
   const navigate = useNavigate()
   const { pizzaSize, pizzaFlavour, setPizzaFlavour} = useContext(OrderContext)
   const [ flavourId, setFlavourId ] = useState("")
