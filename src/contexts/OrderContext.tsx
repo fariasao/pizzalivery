@@ -31,14 +31,14 @@ type PizzaOrderType = {
     total: number
 }
 
-type OrderContextProps = {
-    pizzaSize: PizzaSizeType
-    setPizzaSize: React.Dispatch<React.SetStateAction<PizzaSizeType>>;
-    pizzaFlavour: PizzaFlavourType
-    setPizzaFlavour: React.Dispatch<React.SetStateAction<PizzaFlavourType>>;
-    pizzaOrder: PizzaOrderType
-    setPizzaOrder: React.Dispatch<React.SetStateAction<PizzaOrderType>>;
-}
+// type OrderContextProps = {
+//     pizzaSize: PizzaSizeType
+//     setPizzaSize: React.Dispatch<React.SetStateAction<PizzaSizeType>>;
+//     pizzaFlavour: PizzaFlavourType
+//     setPizzaFlavour: React.Dispatch<React.SetStateAction<PizzaFlavourType>>;
+//     pizzaOrder: PizzaOrderType
+//     setPizzaOrder: React.Dispatch<React.SetStateAction<PizzaOrderType>>;
+// }
 
 const OrderContext = createContext<OrderContextProps>({})
 
