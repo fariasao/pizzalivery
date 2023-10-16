@@ -78,11 +78,9 @@ export default function Summary() {
     const totalAmount = summaryArray.reduce((total, flavour) => {
       let priceForSlices = flavour.price[pizzaSize[0].slices];
       
-      console.log(flavour.name);
-      
-      if (["1/2 Mussarela", "1/2 Frango com Catupiry", "1/2 Margherita", "1/2 Portuguesa"].includes(flavour.name)) {
-        return priceForSlices = Math.max(flavour.price[pizzaSize[0].slices]);
-      }
+      // if (flavour.name["1/2 Mussarela", "1/2 Frango com Catupiry", "1/2 Margherita", "1/2 Portuguesa"]) {
+      //   return priceForSlices = priceForSlices / 2;
+      // }
   
       return total + priceForSlices * flavour.quantity;
     }, 0);
@@ -114,7 +112,7 @@ export default function Summary() {
         <Button inverse="inverse" onClick={handleBack}>
           Voltar
         </Button>
-        <Button onClick={handleAdd}>Adicionar mais pizzas</Button>
+        {/* <Button onClick={handleAdd}>Adicionar mais pizzas</Button> */}
         <Button onClick={handleNext}>Ir para o pagamento</Button>
       </SummaryActionWrapper>
     </Layout>
