@@ -91,7 +91,7 @@ export default function DualFlavours() {
   ];
 
   const getPizzaFlavour = (id: string) => {
-    return flavoursOptions.filter((flavour) => flavour.id === id);
+    return flavoursOptions.find((flavour) => flavour.id === id);
   };
 
   const handleClick = (event) => {
@@ -108,21 +108,22 @@ export default function DualFlavours() {
   };
 
   const handleNext = () => {
-    if (selectedFlavours.length < 2) {
+    if (selectedFlavours.length === 2) {
+      const selectedFlavoursData = selectedFlavours.map((flavourId) =>
+        getPizzaFlavour(flavourId)
+      );
+      setPizzaFlavour(selectedFlavoursData);
+      navigate(routes.summary);
+    } else {
       alert("Por favor, selecione dois sabores de pizza.");
-      return;
     }
-
-    const selectedFlavoursData = selectedFlavours.map(getPizzaFlavour);
-    setPizzaFlavour(selectedFlavoursData);
-    navigate(routes.summary);
   };
 
   useEffect(() => {
-    if (!pizzaFlavour) return;
-
-    setFlavourId(pizzaFlavour[0].id);
-  }, []);
+    if (pizzaFlavour && pizzaFlavour.length > 0) {
+      setSelectedFlavours(pizzaFlavour.map((flavour) => flavour.id));
+    }
+  }, [pizzaFlavour]);
 
   return (
     <Layout>
@@ -137,7 +138,7 @@ export default function DualFlavours() {
               {convertToCurrency(price[pizzaSize[0].slices])}
             </FlavourCardPrice>
             <Button id={id} onClick={handleClick}>
-              {selectedFlavours.includes(id) ? "Desselecionar" : "Selecionar"}
+              {selectedFlavours.includes(id) ? "Selecionado" : "Selecionar"}
             </Button>
           </FlavourCard>
         ))}

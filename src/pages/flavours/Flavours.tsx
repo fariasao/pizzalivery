@@ -6,10 +6,10 @@ import { routes } from "../../routes";
 import { useContext, useEffect, useState } from "react";
 import OrderContext from "../../contexts/OrderContext";
 
-import Mussarela from "../../assets/pizza-flavours/mucarela.png"
-import ChickenWithCheese from "../../assets/pizza-flavours/frango-catupiry.png"
-import Margherita from "../../assets/pizza-flavours/margherita.png"
-import Lusa from "../../assets/pizza-flavours/portuguesa.png"
+import Mussarela from "../../assets/pizza-flavours/mucarela.png";
+import ChickenWithCheese from "../../assets/pizza-flavours/frango-catupiry.png";
+import Margherita from "../../assets/pizza-flavours/margherita.png";
+import Lusa from "../../assets/pizza-flavours/portuguesa.png";
 
 import { convertToCurrency } from "../../helpers/convertToCurrency";
 
@@ -21,12 +21,13 @@ import {
   FlavourCardPrice,
   FlavourCardTitle,
   FlavourContentWrapper,
-} from "./Flavours.style"
+} from "./Flavours.style";
 
 export default function Flavours() {
-  const navigate = useNavigate()
-  const { pizzaSize, pizzaFlavour, setPizzaFlavour} = useContext(OrderContext)
-  const [ flavourId, setFlavourId ] = useState("")
+  const navigate = useNavigate();
+  const { pizzaSize, pizzaFlavour, setPizzaFlavour } = useContext(OrderContext);
+  // const [flavourId, setFlavourId] = useState("");
+  const [selectedFlavours, setSelectedFlavours] = useState([]);
   console.log(pizzaSize);
 
   const flavoursOptions = [
@@ -78,46 +79,56 @@ export default function Flavours() {
         "1": 23.5,
       },
     },
-  ]
+  ];
 
-  const getPizzaFlavour = (id:string) => {
-    return flavoursOptions.filter((flavour) => flavour.id === id)
-  }
+  const getPizzaFlavour = (id: string) => {
+    return flavoursOptions.find((flavour) => flavour.id === id);
+  };
 
-  const handleClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setFlavourId(event.target.id)
-  }
+  const handleFlavourClick = (id) => {
+    if (selectedFlavours.includes(id)) {
+      setSelectedFlavours(
+        selectedFlavours.filter((selectedId) => selectedId !== id)
+      );
+    } else {
+      setSelectedFlavours([...selectedFlavours, id]);
+    }
+  };
 
   const handleBack = () => {
-    navigate(routes.pizzaSize)
-  }
+    navigate(routes.pizzaSize);
+  };
 
   const handleNext = () => {
-    const selectedFlavour = getPizzaFlavour(flavourId)
-    setPizzaFlavour(selectedFlavour)
-    navigate(routes.summary)
-  }
+    if (selectedFlavours.length === 0) {
+      alert("Por favor, selecione pelo menos um sabor de pizza.");
+      return;
+    }
+
+    const selectedFlavoursData = selectedFlavours.map(getPizzaFlavour);
+    setPizzaFlavour(selectedFlavoursData);
+    navigate(routes.summary);
+  };
 
   useEffect(() => {
-    if (!pizzaFlavour) return
-    
-    setFlavourId(pizzaFlavour[0].id)
-  }, [])
+    if (!pizzaFlavour) return;
+    setSelectedFlavours(pizzaFlavour.map((flavour) => flavour.id));
+  }, [pizzaFlavour]);
 
   return (
     <Layout>
-      <Title tabIndex={0}>Agora escolha o sabor da sua pizza</Title>
+      <Title tabIndex={0}>Escolha o(s) sabor(es) da sua pizza</Title>
       <FlavourContentWrapper>
         {flavoursOptions.map(({ id, image, name, description, price }) => (
-          <FlavourCard key={id} selected={id === flavourId ? true : false}>
-            <FlavourCardImage  src={image} alt={name} width="200px" />
+          <FlavourCard key={id} selected={selectedFlavours.includes(id)}>
+            <FlavourCardImage src={image} alt={name} width="200px" />
             <FlavourCardTitle>{name}</FlavourCardTitle>
             <FlavourCardDescription>{description}</FlavourCardDescription>
             <FlavourCardPrice>
               {convertToCurrency(price[pizzaSize[0].slices])}
             </FlavourCardPrice>
-            <Button id={id} onClick={handleClick}>
-              Selecionar
+            <Button onClick={() => handleFlavourClick(id)}>
+              {selectedFlavours.includes(id) ? "Selecionado" : "Selecionar"}
             </Button>
           </FlavourCard>
         ))}
@@ -129,5 +140,5 @@ export default function Flavours() {
         <Button onClick={handleNext}>Seguir para o resumo</Button>
       </FlavourActionWrapper>
     </Layout>
-  )
+  );
 }
